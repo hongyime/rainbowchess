@@ -1,0 +1,26 @@
+name: Rainbow application checks
+on:
+  push:
+    branches: [main, master]
+    paths: ['*.py', 'tests/**', 'templates/**', 'static/**', 'requirements.txt', '.github/workflows/rainbow-checks.yml']
+  pull_request:
+    paths: ['*.py', 'tests/**', 'templates/**', 'static/**', 'requirements.txt', '.github/workflows/rainbow-checks.yml']
+permissions:
+  contents: read
+concurrency:
+  group: rainbow-checks-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install application dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Check undo and rendered Flask pages
+        run: python -W error::ResourceWarning -m unittest discover -s tests -v

@@ -3,7 +3,6 @@ from flask import render_template, redirect
 from chess import WebInterface, Board
 from flask import request
 from MoveHistory import MoveHistory
-from copy import copy
 from flask import Flask, render_template
 
 
@@ -39,10 +38,12 @@ def newgame():
     # in the global space are available to
     # top-level functions
     game.start()
+    history.clear()
     ui.board = game.board_html()
     ui.inputlabel = f'{game.turn} player: '
     ui.errmsg = ' '
     ui.btnlabel = 'MOVE'
+    ui.endgame = ' '
     ui.direct = '/play'
     game.winner = None
     ui.winner = game.winner
@@ -60,7 +61,7 @@ def play():
 		ui.errmsg = ' '
 		if not game.validation(Move):
 
-			history.push(copy(game._position))
+			history.push(game)
 
 			start, end = game.prompt(Move)
 			game.update(start,end)
@@ -118,23 +119,21 @@ def promote():
 
 @app.route('/undo',methods=['POST', 'GET']) #gets the previous version of the chessboard board from movehistory.py (stores versions of chess.html) and returns it, redirects to /play
 def undo():
-	move = history.pop()
-	if move == None:
-		ui.errmsg = "Invalid undo. MoveHistory is empty."
-		return redirect('/play')
-	game._position = move
-	if ui.direct == "/promote":
-		ui.btnlabel = "MOVE"
-		ui.direct = "/play"
-		ui.inputlabel = f'{game.turn} player: '
-		game.msg = ' '
-		ui.errmsg = game.msg
-		return redirect('/play')
-	game.next_turn()	
-	ui.inputlabel = f'{game.turn} player: '
-	game.msg = ' '
-	ui.errmsg = game.msg
-	return redirect('/play')
+    global game
+    snapshot = history.pop()
+    if snapshot is None:
+        ui.errmsg = "Invalid undo. MoveHistory is empty."
+        return redirect('/play')
+    game = snapshot
+    ui.board = game.board_html()
+    ui.winner = game.winner
+    ui.endgame = ' '
+    ui.btnlabel = 'MOVE'
+    ui.direct = '/play'
+    ui.inputlabel = f'{game.turn} player: '
+    game.msg = ' '
+    ui.errmsg = game.msg
+    return redirect('/play')
 
 if __name__ == '__main__':
     app.run("0.0.0.0",debug=False, use_reloader=True)
