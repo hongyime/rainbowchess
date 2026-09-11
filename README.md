@@ -1,6 +1,6 @@
 # Rainbow Chess
 
-Live demo: https://hongyime.github.io/rainbowchess/
+Project page: https://hongyime.github.io/rainbowchess/ (GitHub Pages serves static content; run Flask locally to play.)
 
 ![Project screenshot](./screenshot.png)
 
@@ -9,12 +9,12 @@ A web-based chess game with a colorful rainbow-cycling background.
 
 ## Description
 
-Rainbow Chess (also known as Skittles Chess Game) is a two-player chess game built with Python and Flask. It features a fully functional chess board with move validation, pawn promotion, and an undo feature that allows players to revert up to 10 moves. The game showcases a visually appealing interface with a rainbow color-cycling background effect.
+Rainbow Chess (also known as Skittles Chess Game) is a local two-player chess experiment built with Python and Flask. It includes a board, basic move checks, pawn promotion, and undo for up to 10 moves, with a rainbow color-cycling background. The existing rules use king capture to end a game and do not implement complete standard chess legality.
 
 ## Features
 
 - Interactive chess board with Unicode chess piece symbols
-- Move validation for all chess pieces (King, Queen, Rook, Bishop, Knight, Pawn)
+- Basic movement checks for King, Queen, Rook, Bishop, Knight and Pawn; rule gaps remain
 - Pawn promotion to Queen, Rook, Bishop, or Knight
 - Undo functionality with a circular stack that stores up to 10 moves
 - Rainbow color-cycling background animation
@@ -22,7 +22,7 @@ Rainbow Chess (also known as Skittles Chess Game) is a two-player chess game bui
 
 ## Technologies Used
 
-- Python 3.8
+- Python 3.12 (tested)
 - Flask (web framework)
 - Jinja2 (templating engine)
 - HTML/CSS/JavaScript
@@ -49,6 +49,16 @@ python main.py
 ```
 
 The game will start on `http://localhost:5000`. Open your browser and navigate to this address to play.
+
+The current server shares one in-memory board and undo history across all visitors. Use it for a single local game; browser/session isolation, complete rule validation and production Flask hosting remain maintenance tasks. No game data is persisted to Supabase or another database.
+
+### Checks
+
+```bash
+python -W error::ResourceWarning -m unittest discover -s tests -v
+```
+
+The application workflow runs these checks for source, template, asset and dependency changes. They cover bounded undo history, independent piece snapshots, new-game resets, promotion/winner restoration and actual Flask page rendering.
 
 ### How to Play
 

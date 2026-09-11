@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<!-- <div class="wrapper"></div> -->
+	<style type="text/css">
+		body {
+			background-color: black;
+			transition: background-color 1s;
+		}
+	</style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Skittles Chess Game</title>
+	<link href="static/style_a.css" rel="stylesheet" type="text/css">
+    <style type="text/css">
+    .myDiv {
+		text-color: #fff;
+		text-align: center;
+        border: 1px solid #fff;
+        /* display:inline; */
+        vertical-align: middle;
+        margin-right:auto;
+        margin-left:auto;
+        padding: 1em;
+        margin: 1px;}
+
+    .title {
+        color: #fff;
+		margin: 14px;}
+	.sub{
+		color: #fff;
+		margin: 0px;}
+	.pic{
+		margin: 60px;}
+    </style>
+  </head>
+  <body>	  
+  <!-- <body style="background-color:#000000"> -->
+	<script type="text/javascript">
+		var colors = ["black","red", "orange", "yellow", "green", "blue", "indigo", "violet"];
+
+		var i = 1;
+
+		window.setInterval(function(){
+			document.body.style.backgroundColor = colors[i];
+			i++;
+			if (i === colors.length){
+				i=0;
+			}
+		}, 5000);
+	</script>
+    <h1 class="title">SKITTLES CHESS GAME</h1>
+	<h3 class="sub" style="text-align:center">experience the rainbow</h3>
+    <p class="pic" style="text-align:center">
+        <!-- <img width="65%" height="50%" src=https://images.unsplash.com/photo-1586165368502-1bad197a6461?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80> -->
+		<img width="18%" height="18%" src=static/horse.png style="background:transparent;" />
+    </p>
+    <center>
+        <!-- <button style="text-align:center" type="submit" class="button">START</button> -->
+            <!-- <a href="/newgame"style="text-align:center">
+        <button>START</button></a> -->
+        <form action="/newgame" method="post" style="text-align:center" style="color:#fff">
+    	    <input type="submit" value="START" style="text-align:center" style="color:#fff">
+	    </form>
+    </center>
+  </body>
+</html>
