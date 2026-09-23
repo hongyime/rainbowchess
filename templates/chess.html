@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<style type="text/css">
+		body {
+			background-color: black;
+			transition: background-color 2s;}
+		.title {
+        	color: #fff;
+			margin: 14px;}
+		.sub{
+			color: #fff;
+			margin: 0px;}
+		/* .chessboard{
+			margin: 100px;} */
+	</style>
+    <meta charset="utf-8">
+        <!-- Change your page title -->
+        <title>Skittles Chess Game</title>
+        <link rel="stylesheet" href="static/style_a.css">
+		
+    <meta name="viewport" content="width=device-width">
+    <title>repl.it</title>
+    <link href="static/style_a.css" rel="stylesheet" >
+  </head>
+  <body>
+	<script type="text/javascript">
+		var colors = ["black","red", "orange", "yellow", "green", "blue", "indigo", "violet"];
+
+		var i = 1;
+
+		window.setInterval(function(){
+			document.body.style.backgroundColor = colors[i];
+			i++;
+			if (i === colors.length){
+				i=0;
+			}
+		}, 5000);
+	</script>
+        <div class="title">
+            <h1 class="title" style="color:#fff">SKITTLES CHESS GAME</h1>
+			<h3 class="sub" style="text-align:center">experience the rainbow</h3>
+        </div>
+        <p style="text-align:center">
+            <!-- <table>
+            {% set a = 0 %}
+            {% for row in ui.board %}
+            {% set b = a %}
+            <tr>
+                {% for cell in row %}
+                {% if a is divisibleby(2) %}
+                <td style="background-color:#AA6C3F">{{ cell }}</td>
+                {% else %}
+                <td style="background-color:#AA6C3F">{{ cell }}</td>
+                {% endif %}
+                {% set a = b + 1 %}
+                {% endfor %}
+            </tr>
+            {% endfor %}
+            </table> -->
+		<center>
+        <div class="chessboard" style="text-align:center">
+            {% set a_global = ['1','1','1','1','1','1','1','1'] %}
+            {% set b_global = ['1'] %}
+            {% set v_global = ['1'] %}
+            {% for row in ui.board %}
+            <div class="white" style="background-color:#ffffff">{{ a_global|length - b_global|length }}</div>
+                {% for cell in row %}
+                    <!-- {% set b = a %} -->
+                    {% if v_global|length is divisibleby(2) %}
+                    <div class="white" style="background-color:#ffffff">{{ cell }}</div>
+                    {% else %}
+                    <div class="black" style="background-color:#c0c0c0">{{ cell }}</div>
+                    {% endif %}
+                    {% if v_global.append('1') %}{% endif %}
+                {% endfor %}
+                {% if v_global.append('1') %}{% endif %}
+                {% if b_global.append('1') %}{% endif %}
+            {% endfor %}
+            <div class="black" style="background-color:#ffffff"> </div>
+            <div class="white" style="background-color:#ffffff">0</div>
+            <div class="white" style="background-color:#ffffff">1</div>
+            <div class="white" style="background-color:#ffffff">2</div>
+            <div class="white" style="background-color:#ffffff">3</div>
+            <div class="white" style="background-color:#ffffff">4</div>
+            <div class="white" style="background-color:#ffffff">5</div>
+            <div class="white" style="background-color:#ffffff">6</div>
+            <div class="white" style="background-color:#ffffff">7</div>
+        </div>
+        
+		</center>
+    <center>
+    </p>
+    <p style="text-align:center" style="color:#fff">
+    <form action={{ ui.direct }} method="post" disabled={{ ui.endgame }} style="text-align:center" style="color:#fff">
+    <label style="color:#fff">{{ ui.inputlabel }}</label>
+    <input type="text" name="player_input" value=""></p>
+	<p style="color:#fff">{{ ui.errmsg  }}</p>
+
+    <input type="submit" value={{ ui.btnlabel }} style="text-align:center" style="color:#fff">
+	</form>
+	<form action="/undo" method="post" style="text-align:center" style="color:#fff">
+	<input type="submit" value="UNDO" style="text-align:center" style="color:#fff">
+	</form>
+	<br>
+	</center>
+
+  </body>
+  <footer>
+    <div class="credits" style="text-align:center" style="color:#fff">
+        <h4 style="color:#fff">Copyright 2020 © <a href="https://github.com/Vina071">Vina, </a>Bryan, <a href="https://github.com/sun2444666668888888">David</a></h4>
+</footer>
+</html>

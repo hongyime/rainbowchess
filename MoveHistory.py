@@ -1,31 +1,38 @@
+from copy import deepcopy
+
+
 class MoveHistory:
-	def __init__(self, size):
-		self.size = size
-		self.data = [None] * self.size
-		self.head = None
-	
-	def isempty(self):
-		if self.head == None:
-			return True
-		else:
-			return False
+    """A bounded stack whose snapshots own their mutable piece state."""
 
-	def push(self, move):
-		if self.head is None:
-			self.head = 0
-		else:
-			self.head = (self.head + 1) % self.size
-		self.data[self.head] = move
+    def __init__(self, size: int):
+        if type(size) is not int:
+            raise TypeError('history size must be an integer')
+        if size <= 0:
+            raise ValueError('history size must be positive')
+        self.size = size
+        self.clear()
 
-	def pop(self):
-		if self.isempty():
-			return None
-		move = self.data[self.head]
-		self.data[self.head] = None
-		if self.head == 0:
-			self.head = self.size - 1
-		else:
-			self.head -= 1
-		return move
+    def clear(self):
+        self.data = [None] * self.size
+        self.head = None
+        self._count = 0
 
-#singly linked list implementation of movehistory to allow users to undo their moves, stores copies of chess.html into each node and allow it to be popped off and returned to main.py (/undo) to be rendered
+    def isempty(self) -> bool:
+        return self._count == 0
+
+    def push(self, move):
+        snapshot = deepcopy(move)
+        self.head = 0 if self.head is None else (self.head + 1) % self.size
+        self.data[self.head] = snapshot
+        self._count = min(self._count + 1, self.size)
+
+    def pop(self):
+        if self.isempty():
+            return None
+        move = self.data[self.head]
+        self.data[self.head] = None
+        self._count -= 1
+        self.head = (self.head - 1) % self.size if self._count else None
+        return move
+
+# The circular storage retains at most `size` complete game snapshots for undo.

@@ -261,8 +261,10 @@ class Board:
             piece = "queen"
             promoted_piece = Queen(colour)
         self.msg = f'{self.turn} pawn has been promoted to {self.turn} {piece}'
+        promoted_piece.notmoved = False
         self.remove(coord)
         self.add(coord, promoted_piece)
+        self.promotion = False
 
     def king_and_rook_unmoved(self, colour, rook_coord):
         row = rook_coord[1]
@@ -347,6 +349,10 @@ class Board:
             print('')
 
     def start(self):
+        self.winner = None
+        self.checkmate = None
+        self.promotion = False
+        self.msg = ' '
         for coord in self.coords():
             self.remove(coord)
         colour = 'Black'
